@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "345269881732",
+    "project_id": "campus-life-1",
+    "storage_bucket": "campus-life-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345269881732:android:c168a966fc27046d6e6bd1",
+        "android_client_info": {
+          "package_name": "com.example.campus_life"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345269881732-1pbgqne0d1kqd4vvfhkdt8gogrpij1ch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCWisAwbkMr1jZnwHYLxlz0wi89Y9zPgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345269881732-1pbgqne0d1kqd4vvfhkdt8gogrpij1ch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
