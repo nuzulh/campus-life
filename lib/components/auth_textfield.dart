@@ -6,6 +6,7 @@ class AuthTextField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
   final bool isPassword;
+  final int maxLines;
 
   const AuthTextField({
     Key? key,
@@ -14,6 +15,7 @@ class AuthTextField extends StatelessWidget {
     required this.icon,
     required this.controller,
     this.isPassword = false,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class AuthTextField extends StatelessWidget {
       child: TextField(
         obscureText: isPassword,
         controller: controller,
+        maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
           border: OutlineInputBorder(

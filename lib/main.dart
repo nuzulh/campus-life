@@ -4,6 +4,8 @@ import 'package:campus_life/pages/complete_profile.dart';
 import 'package:campus_life/pages/login.dart';
 import 'package:campus_life/pages/page_tree.dart';
 import 'package:campus_life/pages/register.dart';
+import 'package:campus_life/pages/simkuliah_form.dart';
+import 'package:campus_life/pages/task_form.dart';
 import 'package:campus_life/pages/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -44,12 +46,12 @@ class CampusLife extends StatelessWidget {
           headline3: GoogleFonts.poppins(
             fontSize: 20.0,
             color: Colors.black,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
-          headline4: GoogleFonts.poppins(
+          headline4: GoogleFonts.nunito(
             fontSize: 18.0,
             color: Colors.black,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.bold,
           ),
           bodyText1: GoogleFonts.poppins(
             fontSize: 14.0,
@@ -95,14 +97,22 @@ class CampusLife extends StatelessWidget {
           page: () => const Register(),
         ),
         GetPage(
+          name: '/complete-profile',
+          page: () => const CompleteProfile(),
+        ),
+        GetPage(
           name: '/page-tree',
           page: () => const PageTree(),
           transition: Transition.noTransition,
           transitionDuration: const Duration(milliseconds: 200),
         ),
         GetPage(
-          name: '/complete-profile',
-          page: () => const CompleteProfile(),
+          name: '/task-form',
+          page: () => const TaskForm(),
+        ),
+        GetPage(
+          name: '/simkuliah-form',
+          page: () => const SimkuliahForm(),
         ),
       ],
     );

@@ -48,7 +48,6 @@ class AuthController extends GetxController {
       Get.offAllNamed('/welcome');
     } else {
       user.value = await getUser(firebaseUser.value!.uid);
-      print(user.value.firstName);
       if (user.value.firstName == '') {
         Get.offAllNamed('/complete-profile');
       } else {
@@ -112,6 +111,7 @@ class AuthController extends GetxController {
             university: universityController.text.trim(),
           ).toMap())
           .then((_) => setInitialScreenGoogle(googleSignInAccount.value));
+      resetForm();
     } catch (e) {
       errorMessage.value = e.toString();
     }

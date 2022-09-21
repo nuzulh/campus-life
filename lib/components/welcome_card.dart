@@ -10,7 +10,7 @@ class WelcomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController());
+    final HomeController homeController = Get.put(HomeController());
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
       padding: const EdgeInsets.all(8.0),
@@ -43,7 +43,7 @@ class WelcomeCard extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Text(
-                          controller.user.value.firstName,
+                          'Welcome, ${controller.user.value.firstName}!',
                           style: GoogleFonts.poppins(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,

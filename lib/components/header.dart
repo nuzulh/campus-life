@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
           ),
           Text(
             title,
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headline3,
           ),
           CupertinoButton(
             onPressed: () {

@@ -5,6 +5,7 @@ class Button extends StatelessWidget {
   final Function() onPressed;
   final IconData? icon;
   final Color color;
+  final String? img;
 
   const Button({
     Key? key,
@@ -12,6 +13,7 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.color = Colors.black87,
+    this.img,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,15 @@ class Button extends StatelessWidget {
                 ? Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Icon(icon, size: 28),
+                  )
+                : const SizedBox.shrink(),
+            img != null
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: Image.asset(
+                      img ?? '',
+                      width: 24.0,
+                    ),
                   )
                 : const SizedBox.shrink(),
             Text(

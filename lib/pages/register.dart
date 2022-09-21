@@ -15,6 +15,7 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthController controller = Get.put(AuthController());
+    controller.resetForm();
 
     return Scaffold(
       body: Stack(

@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'package:campus_life/controllers/auth.dart';
-import 'package:campus_life/models/user.dart';
+import 'package:campus_life/controllers/schedule.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
-  AuthController authController = Get.put(AuthController());
+  final AuthController authController = Get.put(AuthController());
+  final ScheduleController scheduleController = Get.put(ScheduleController());
 
   final Rx<DateTime> today = DateTime.now().obs;
   final RxList<String> days =
-      ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].obs;
+      <String>['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].obs;
   late RxInt day = 0.obs;
   late RxInt firstDay = 0.obs;
   late RxInt selectedDay = 0.obs;
@@ -25,16 +26,17 @@ class HomeController extends GetxController {
     time.value = formatDateTime(DateTime.now());
     Timer.periodic(const Duration(seconds: 1), (Timer t) => getTime());
 
-    ever(selectedDay, gas);
+    ever(selectedDay, renderSubjects);
 
     super.onInit();
   }
 
-  void gas(int index) {
-    print(days[index]);
+  Future<void> renderSubjects(int index) async {
+    await scheduleController.renderSubjects(selectedDay.value);
+    await scheduleController.isSubjectsEmpty();
   }
 
-  getTime() {
+  void getTime() {
     final DateTime now = DateTime.now();
     final String formattedDateTime = formatDateTime(now);
     time.value = formattedDateTime;
