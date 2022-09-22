@@ -14,7 +14,6 @@ class SimkuliahForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ScheduleController scheduleController = Get.put(ScheduleController());
-    scheduleController.isLoading.value = false;
     final TextEditingController npmController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 

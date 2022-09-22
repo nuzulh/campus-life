@@ -168,7 +168,16 @@ class Home extends StatelessWidget {
                           color: const Color(0xFF3F8798),
                           icon: Icons.add_circle_outline,
                           onPressed: () {
-                            Get.toNamed('/task-form');
+                            if (controller.subjects.isNotEmpty) {
+                              Get.toNamed('/task-form');
+                            } else {
+                              Get.snackbar(
+                                'Information',
+                                "You don't have any schedule today.",
+                                margin: const EdgeInsets.all(8.0),
+                                duration: const Duration(seconds: 2),
+                              );
+                            }
                           },
                         ),
                       ],

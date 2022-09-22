@@ -1,12 +1,12 @@
 import 'package:campus_life/components/loading.dart';
 import 'package:campus_life/controllers/auth.dart';
-import 'package:campus_life/pages/complete_profile.dart';
-import 'package:campus_life/pages/login.dart';
 import 'package:campus_life/pages/page_tree.dart';
-import 'package:campus_life/pages/register.dart';
-import 'package:campus_life/pages/simkuliah_form.dart';
-import 'package:campus_life/pages/task_form.dart';
-import 'package:campus_life/pages/welcome.dart';
+import 'package:campus_life/screens/welcome.dart';
+import 'package:campus_life/screens/complete_profile.dart';
+import 'package:campus_life/screens/login.dart';
+import 'package:campus_life/screens/register.dart';
+import 'package:campus_life/screens/simkuliah_form.dart';
+import 'package:campus_life/screens/task_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,7 +44,7 @@ class CampusLife extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
           headline3: GoogleFonts.poppins(
-            fontSize: 20.0,
+            fontSize: 18.0,
             color: Colors.black,
             fontWeight: FontWeight.w500,
           ),

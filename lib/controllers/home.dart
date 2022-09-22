@@ -43,6 +43,6 @@ class HomeController extends GetxController {
   }
 
   String formatDateTime(DateTime dateTime) {
-    return DateFormat('dd-MM-yyyy hh:mm:ss').format(dateTime);
+    return DateFormat('dd-MM-yyyy kk:mm:ss').format(dateTime);
   }
 }

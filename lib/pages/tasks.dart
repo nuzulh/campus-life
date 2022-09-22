@@ -1,3 +1,5 @@
+import 'package:campus_life/components/header.dart';
+import 'package:campus_life/components/secondary_bg.dart';
 import 'package:flutter/material.dart';
 
 class Tasks extends StatelessWidget {
@@ -5,8 +7,17 @@ class Tasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Tasks'),
+    return Stack(
+      children: [
+        const SecondaryBg(),
+        SafeArea(
+          child: Column(
+            children: [
+              const Header(title: 'Task', showBackButton: false),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

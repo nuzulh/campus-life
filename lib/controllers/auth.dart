@@ -71,7 +71,12 @@ class AuthController extends GetxController {
 
   showSnackBar(String message) {
     if (errorMessage.value != '') {
-      Get.snackbar('Error', message, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        message,
+        margin: const EdgeInsets.all(8.0),
+        duration: const Duration(seconds: 2),
+      );
     }
     errorMessage.value = '';
   }

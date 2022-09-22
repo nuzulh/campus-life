@@ -1,3 +1,5 @@
+import 'package:campus_life/components/header.dart';
+import 'package:campus_life/components/secondary_bg.dart';
 import 'package:flutter/material.dart';
 
 class Schedule extends StatelessWidget {
@@ -5,8 +7,17 @@ class Schedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('schedule'),
+    return Stack(
+      children: [
+        const SecondaryBg(),
+        SafeArea(
+          child: Column(
+            children: [
+              const Header(title: 'Schedule', showBackButton: false),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

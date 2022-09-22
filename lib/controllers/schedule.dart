@@ -208,15 +208,29 @@ class ScheduleController extends GetxController {
               ),
             );
           } else {
-            Get.snackbar('Error', 'NPM or Password is incorrect.');
+            Get.snackbar(
+              'Error',
+              'NPM or Password is incorrect.',
+              margin: const EdgeInsets.all(8.0),
+              duration: const Duration(seconds: 2),
+            );
           }
         });
       } catch (e) {
-        Get.snackbar('Error',
-            'SIMKULIAH internal server error. Please try again later.');
+        Get.snackbar(
+          'Error',
+          'SIMKULIAH internal server error. Please try again later.',
+          margin: const EdgeInsets.all(8.0),
+          duration: const Duration(seconds: 2),
+        );
       }
     } else {
-      Get.snackbar('Error', 'NPM and Password cannot be empty.');
+      Get.snackbar(
+        'Error',
+        'NPM and Password cannot be empty.',
+        margin: const EdgeInsets.all(8.0),
+        duration: const Duration(seconds: 2),
+      );
     }
   }
 

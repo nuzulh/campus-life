@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 class AuthTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
-  final IconData icon;
-  final TextEditingController controller;
+  final IconData? icon;
+  final TextEditingController? controller;
   final bool isPassword;
   final int maxLines;
+  final Function()? onTap;
+  final bool readOnly;
 
   const AuthTextField({
     Key? key,
     required this.labelText,
     required this.hintText,
-    required this.icon,
-    required this.controller,
+    this.icon,
+    this.controller,
     this.isPassword = false,
     this.maxLines = 1,
+    this.onTap,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -26,8 +30,11 @@ class AuthTextField extends StatelessWidget {
         obscureText: isPassword,
         controller: controller,
         maxLines: maxLines,
+        onTap: onTap,
+        readOnly: readOnly,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 14.0, horizontal: 8.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -35,7 +42,7 @@ class AuthTextField extends StatelessWidget {
           labelStyle: Theme.of(context).textTheme.labelMedium,
           hintText: hintText,
           hintStyle: Theme.of(context).textTheme.bodyText1,
-          prefixIcon: Icon(icon, size: 18.0),
+          prefixIcon: icon != null ? Icon(icon, size: 18.0) : null,
         ),
       ),
     );
