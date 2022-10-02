@@ -3,13 +3,13 @@ import 'package:campus_life/components/back_button.dart';
 import 'package:campus_life/components/button.dart';
 import 'package:campus_life/components/primary_bg.dart';
 import 'package:campus_life/controllers/home.dart';
-import 'package:campus_life/controllers/schedule.dart';
 import 'package:campus_life/controllers/task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TaskForm extends StatelessWidget {
   const TaskForm({Key? key}) : super(key: key);
@@ -17,11 +17,7 @@ class TaskForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.put(HomeController());
-    final ScheduleController scheduleController = Get.put(ScheduleController());
     final TaskController taskController = Get.put(TaskController());
-
-    TextEditingController subjectController = TextEditingController();
-    RxString dropdownValue = "${scheduleController.subjects[0]['name']}".obs;
 
     return Scaffold(
       body: Stack(
@@ -51,11 +47,11 @@ class TaskForm extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: DropdownButton<String>(
                             isExpanded: true,
-                            value: dropdownValue.value,
+                            value: taskController.dropdownValue.value,
                             onChanged: (String? value) {
-                              dropdownValue.value = value!;
+                              taskController.dropdownValue.value = value!;
                             },
-                            items: scheduleController.subjects
+                            items: taskController.scheduleController.subjects
                                 .map((subject) => DropdownMenuItem<String>(
                                     value: subject['name'],
                                     child: Text(subject['name'])))
@@ -136,12 +132,25 @@ class TaskForm extends StatelessWidget {
                         ),
                       ),
                       AuthTextField(
-                        controller: subjectController,
+                        controller: taskController.detailController.value,
                         labelText: '',
                         hintText: 'Your task details',
                         maxLines: 5,
                       ),
-                      Button(text: 'Save', onPressed: () {}),
+                      Obx(
+                        () => !taskController.isLoading.value
+                            ? Center(
+                                child: LoadingAnimationWidget
+                                    .horizontalRotatingDots(
+                                  color: Colors.black54,
+                                  size: 60.0,
+                                ),
+                              )
+                            : Button(
+                                text: 'Add task',
+                                onPressed: taskController.addTask,
+                              ),
+                      ),
                     ],
                   ),
                 ],

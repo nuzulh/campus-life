@@ -6,6 +6,7 @@ import 'package:campus_life/components/welcome_card.dart';
 import 'package:campus_life/components/secondary_bg.dart';
 import 'package:campus_life/controllers/home.dart';
 import 'package:campus_life/controllers/schedule.dart';
+import 'package:campus_life/screens/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -16,6 +17,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.put(HomeController());
+
     return Stack(
       children: [
         const SecondaryBg(),
@@ -101,39 +103,44 @@ class Home extends StatelessWidget {
                                 ],
                               );
                             }
-                            if (controller.subjects.isEmpty) {
-                              return Center(
-                                child: Image.asset(
-                                  'assets/images/watermelon.png',
-                                  width: Get.width / 1.5,
+                            if (controller.subjects.isNotEmpty) {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14.0, vertical: 4.0),
+                                physics: const BouncingScrollPhysics(),
+                                child: Row(
+                                  children: controller.subjects
+                                      .map(
+                                        (subject) => ScheduleCard(
+                                            onTap: () {
+                                              Get.to(
+                                                () => Subject(
+                                                    subjectName:
+                                                        subject['name']),
+                                              );
+                                            },
+                                            subject: subject['name'],
+                                            time: subject['time']),
+                                      )
+                                      .toList(),
                                 ),
                               );
                             }
-                            return Obx(
-                              () => controller.isLoading.value
-                                  ? Center(
-                                      child: LoadingAnimationWidget
-                                          .horizontalRotatingDots(
-                                        color: Colors.black54,
-                                        size: 60.0,
-                                      ),
-                                    )
-                                  : SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 14.0, vertical: 4.0),
-                                      physics: const BouncingScrollPhysics(),
-                                      child: Row(
-                                        children: controller.subjects
-                                            .map(
-                                              (subject) => ScheduleCard(
-                                                  onTap: () {},
-                                                  subject: subject['name'],
-                                                  time: subject['time']),
-                                            )
-                                            .toList(),
-                                      ),
-                                    ),
+                            if (controller.isLoading.value) {
+                              return Center(
+                                child: LoadingAnimationWidget
+                                    .horizontalRotatingDots(
+                                  color: Colors.black54,
+                                  size: 60.0,
+                                ),
+                              );
+                            }
+                            return Center(
+                              child: Image.asset(
+                                'assets/images/watermelon.png',
+                                width: Get.width / 1.5,
+                              ),
                             );
                           },
                         ),

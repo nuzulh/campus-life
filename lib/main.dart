@@ -1,6 +1,7 @@
 import 'package:campus_life/components/loading.dart';
 import 'package:campus_life/controllers/auth.dart';
 import 'package:campus_life/pages/page_tree.dart';
+import 'package:campus_life/screens/subject.dart';
 import 'package:campus_life/screens/welcome.dart';
 import 'package:campus_life/screens/complete_profile.dart';
 import 'package:campus_life/screens/login.dart';

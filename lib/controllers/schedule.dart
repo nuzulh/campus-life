@@ -19,8 +19,8 @@ class ScheduleController extends GetxController {
   RxBool isLoading = false.obs;
 
   Future<void> renderSubjects(int day) async {
-    subjects.value = await getSubjects(day).then((value) async {
-      isSubjectEmpty.value = await isSubjectsEmpty();
+    subjects.value = await getSubjects(day);
+    isSubjectEmpty.value = await isSubjectsEmpty().then((value) {
       isLoading.value = false;
       return value;
     });
@@ -282,19 +282,6 @@ class ScheduleController extends GetxController {
         .collection('schedule')
         .doc(day.toString())
         .collection('subjects')
-        .get()
-        .then((value) => value.docs.map((e) => e.data()).toList());
-  }
-
-  Future<List> getTasks(int day, int subject) async {
-    return await authController.db
-        .collection('users')
-        .doc(authController.firebaseUser.value?.uid)
-        .collection('schedule')
-        .doc(day.toString())
-        .collection('subjects')
-        .doc(subject.toString())
-        .collection('tasks')
         .get()
         .then((value) => value.docs.map((e) => e.data()).toList());
   }

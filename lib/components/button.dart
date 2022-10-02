@@ -34,13 +34,13 @@ class Button extends StatelessWidget {
           children: <Widget>[
             icon != null
                 ? Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
+                    padding: EdgeInsets.only(right: text == '' ? 0.0 : 12.0),
                     child: Icon(icon, size: 28),
                   )
                 : const SizedBox.shrink(),
             img != null
                 ? Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
+                    padding: EdgeInsets.only(right: text == '' ? 0.0 : 12.0),
                     child: Image.asset(
                       img ?? '',
                       width: 24.0,
