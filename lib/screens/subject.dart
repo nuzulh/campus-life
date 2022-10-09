@@ -41,18 +41,20 @@ class Subject extends StatelessWidget {
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: controller.tasks
-                              .map(
-                                (task) => TaskCard(
-                                  task: task,
-                                  taskCount: controller.tasks.length,
-                                  index: controller.tasks.indexOf(task),
-                                  subjectName: subjectName,
-                                ),
-                              )
-                              .toList(),
+                        child: Obx(
+                          () => Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: controller.tasks
+                                .map(
+                                  (task) => TaskCard(
+                                    task: task,
+                                    taskCount: controller.tasks.length,
+                                    index: controller.tasks.indexOf(task),
+                                    subjectName: subjectName,
+                                  ),
+                                )
+                                .toList(),
+                          ),
                         ),
                       );
                     }

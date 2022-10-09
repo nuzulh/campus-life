@@ -110,4 +110,22 @@ class TaskController extends GetxController {
       await renderTasks(subjectName);
     });
   }
+
+  Future<void> removeTask(String subjectName, String detail) async {
+    final String subjectId = await getSubjectId(subjectName);
+    final String taskId = await getTaskId(subjectId, detail);
+    await authController.db
+        .collection('users')
+        .doc(authController.firebaseUser.value?.uid)
+        .collection('schedule')
+        .doc(HomeController.to.selectedDay.value.toString())
+        .collection('subjects')
+        .doc(subjectId)
+        .collection('tasks')
+        .doc(taskId)
+        .delete()
+        .then((_) async {
+      await renderTasks(subjectName);
+    });
+  }
 }

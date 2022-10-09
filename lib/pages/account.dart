@@ -91,6 +91,7 @@ class Account extends StatelessWidget {
                       const SizedBox(height: 24.0),
                       Button(
                         text: 'Sign out',
+                        paddingX: 0.0,
                         icon: Icons.logout_outlined,
                         color: const Color(0xFF3F8798),
                         onPressed: authController.signOut,

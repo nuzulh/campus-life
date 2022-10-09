@@ -77,7 +77,8 @@ class Home extends StatelessWidget {
                           future: controller
                               .renderSubjects(homeController.selectedDay.value),
                           builder: (context, snapshot) {
-                            if (controller.isSubjectEmpty.value) {
+                            if (controller.isSubjectEmpty.value &&
+                                !controller.isLoading.value) {
                               return Column(
                                 children: [
                                   const Padding(
@@ -133,6 +134,24 @@ class Home extends StatelessWidget {
                                     .horizontalRotatingDots(
                                   color: Colors.black54,
                                   size: 60.0,
+                                ),
+                              );
+                            }
+                            if (homeController.selectedDay.value == 6) {
+                              return Center(
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/watermelon.png',
+                                      width: Get.width / 1.5,
+                                    ),
+                                    Text(
+                                      'Sunday is holiday!',
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                    ),
+                                  ],
                                 ),
                               );
                             }

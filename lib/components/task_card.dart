@@ -4,6 +4,7 @@ import 'package:campus_life/controllers/task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TaskCard extends StatelessWidget {
   final Map<String, dynamic> task;
@@ -21,7 +22,8 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TaskController taskController = Get.put(TaskController());
-    RxMap taskTemp = task.obs;
+    final bool done = task['done'];
+    RxBool isDone = done.obs;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -60,20 +62,22 @@ class TaskCard extends StatelessWidget {
                     const Divider(),
                     const Text('Status'),
                     const SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        Icon(task['done']
-                            ? CupertinoIcons.check_mark_circled_solid
-                            : CupertinoIcons.xmark_circle_fill),
-                        const SizedBox(width: 6.0),
-                        Text(
-                          task['done'] ? 'Done' : 'Not done yet',
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+                    Obx(
+                      () => Row(
+                        children: [
+                          Icon(isDone.value
+                              ? CupertinoIcons.check_mark_circled_solid
+                              : CupertinoIcons.xmark_circle_fill),
+                          const SizedBox(width: 6.0),
+                          Text(
+                            isDone.value ? 'Done' : 'Not done yet',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const Divider(),
                     const Text('Task detail'),
@@ -96,12 +100,47 @@ class TaskCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CupertinoButton(
-                              child: const Icon(
-                                CupertinoIcons.trash,
-                                color: Colors.red,
-                                size: 36.0,
-                              ),
-                              onPressed: () {}),
+                            child: const Icon(
+                              CupertinoIcons.trash,
+                              color: Colors.red,
+                              size: 36.0,
+                            ),
+                            onPressed: () {
+                              Get.defaultDialog(
+                                titlePadding: const EdgeInsets.all(0.0),
+                                title: '',
+                                titleStyle: GoogleFonts.poppins(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                content: const Text(
+                                    'Are you sure to delete this task?'),
+                                confirm: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    CupertinoButton(
+                                      child: const Text('Cancel'),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                    ),
+                                    SizedBox(
+                                      width: Get.width / 2.5,
+                                      child: Button(
+                                        text: 'Delete',
+                                        color: Colors.red,
+                                        onPressed: () async {
+                                          await taskController.removeTask(
+                                              subjectName, task['detail']);
+                                          Get.back();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                           Text('Task: ${index + 1} / $taskCount'),
                         ],
                       ),
@@ -116,17 +155,15 @@ class TaskCard extends StatelessWidget {
           width: Get.width,
           child: Obx(
             () => Button(
-              text: taskTemp['done'] ? 'Undone' : 'Done',
-              icon: taskTemp['done']
+              text: isDone.value ? 'Undone' : 'Done',
+              icon: isDone.value
                   ? CupertinoIcons.xmark
                   : CupertinoIcons.checkmark_alt,
               color: const Color(0xFF3F8798),
               onPressed: () {
-                if (taskTemp['done']) {
-                  taskController.doneTask(subjectName, task['detail'], false);
-                } else {
-                  taskController.doneTask(subjectName, task['detail'], true);
-                }
+                taskController.doneTask(
+                    subjectName, task['detail'], !isDone.value);
+                isDone.value = !isDone.value;
               },
             ),
           ),

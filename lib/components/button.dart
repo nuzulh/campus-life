@@ -6,6 +6,7 @@ class Button extends StatelessWidget {
   final IconData? icon;
   final Color color;
   final String? img;
+  final double paddingX;
 
   const Button({
     Key? key,
@@ -14,16 +15,17 @@ class Button extends StatelessWidget {
     this.icon,
     this.color = Colors.black87,
     this.img,
+    this.paddingX = 18.0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 6.0),
+      padding: EdgeInsets.symmetric(horizontal: paddingX, vertical: 6.0),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color,
           padding: const EdgeInsets.symmetric(vertical: 14.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
