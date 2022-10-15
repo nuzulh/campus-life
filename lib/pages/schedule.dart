@@ -12,8 +12,8 @@ class Schedule extends StatelessWidget {
         const SecondaryBg(),
         SafeArea(
           child: Column(
-            children: [
-              const Header(title: 'Schedule', showBackButton: false),
+            children: const [
+              Header(title: 'Schedule', showBackButton: false),
             ],
           ),
         ),

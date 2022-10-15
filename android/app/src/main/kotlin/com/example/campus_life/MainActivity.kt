@@ -1,4 +1,4 @@
-package com.example.campus_life
+package com.nuzul.campus_life
 
 import io.flutter.embedding.android.FlutterActivity
 

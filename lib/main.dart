@@ -9,12 +9,27 @@ import 'package:campus_life/screens/simkuliah_form.dart';
 import 'package:campus_life/screens/task_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) {
+
+  var initSettingsAndroid =
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
+  var initSettings = InitializationSettings(android: initSettingsAndroid);
+
+  await Firebase.initializeApp().then((_) async {
+    tz.initializeTimeZones();
+    var detroit = tz.getLocation('Asia/Jakarta');
+    tz.setLocalLocation(detroit);
+    await flutterLocalNotificationsPlugin.initialize(initSettings);
     Get.put(AuthController());
   });
 

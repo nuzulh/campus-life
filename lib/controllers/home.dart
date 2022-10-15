@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:campus_life/controllers/auth.dart';
 import 'package:campus_life/controllers/schedule.dart';
+import 'package:campus_life/services/local_notification.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
@@ -16,9 +17,13 @@ class HomeController extends GetxController {
   late RxInt firstDay = 0.obs;
   late RxInt selectedDay = 0.obs;
   late RxString time = ''.obs;
+  late LocalNotification service;
 
   @override
   void onInit() {
+    service = LocalNotification();
+    listenToNotification();
+
     day.value = days.indexOf(days[today.value.weekday - 1]);
     firstDay.value = today.value.day - day.value;
     selectedDay.value = day.value;
@@ -29,6 +34,15 @@ class HomeController extends GetxController {
     ever(selectedDay, renderSubjects);
 
     super.onInit();
+  }
+
+  void listenToNotification() =>
+      service.onNotificationClick.stream.listen(onNoticationListener);
+
+  void onNoticationListener(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      Get.toNamed('/page-tree');
+    }
   }
 
   Future<void> renderSubjects(int index) async {

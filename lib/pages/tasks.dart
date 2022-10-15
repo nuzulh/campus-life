@@ -12,8 +12,8 @@ class Tasks extends StatelessWidget {
         const SecondaryBg(),
         SafeArea(
           child: Column(
-            children: [
-              const Header(title: 'Task', showBackButton: false),
+            children: const [
+              Header(title: 'Task', showBackButton: false),
             ],
           ),
         ),

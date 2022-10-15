@@ -3,12 +3,14 @@ import 'package:campus_life/controllers/home.dart';
 import 'package:campus_life/controllers/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:campus_life/services/local_notification.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class TaskController extends GetxController {
   static TaskController get to => TaskController();
   final AuthController authController = Get.put(AuthController());
   final ScheduleController scheduleController = Get.put(ScheduleController());
+  final LocalNotification service = LocalNotification();
 
   final List days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   RxBool isLoading = false.obs;
@@ -20,10 +22,9 @@ class TaskController extends GetxController {
 
   @override
   void onInit() {
-    deadlineController.value.text =
-        DateFormat('dd-MM-yyyy kk:mm').format(DateTime.now());
-    dropdownValue.value = scheduleController.subjects[0]['name'];
     isLoading.value = true;
+    deadlineController.value.text = DateTime.now().toString().split('.')[0];
+    dropdownValue.value = scheduleController.subjects[0]['name'];
     super.onInit();
   }
 
@@ -47,7 +48,11 @@ class TaskController extends GetxController {
 
   Future<void> addTask() async {
     isLoading.value = false;
+    final tz.TZDateTime deadline =
+        tz.TZDateTime.parse(tz.local, deadlineController.value.text);
     final String subjectId = await getSubjectId(dropdownValue.value);
+    final tz.TZDateTime today = tz.TZDateTime.now(tz.local);
+
     await authController.db
         .collection('users')
         .doc(authController.firebaseUser.value?.uid)
@@ -60,8 +65,28 @@ class TaskController extends GetxController {
       'detail': detailController.value.text.trim(),
       'deadline': deadlineController.value.text,
       'done': false,
-    }).then((_) {
+    }).then((_) async {
       isLoading.value = true;
+      if (deadline.subtract(const Duration(hours: 12)).isAfter(today)) {
+        await service.showScheduledNotification(
+          id: DateTime.now().millisecond,
+          title: dropdownValue.value,
+          body: '12 hours before task deadline!',
+          notificationTime: tz.TZDateTime(tz.local, deadline.year,
+                  deadline.month, deadline.day, deadline.hour, deadline.minute)
+              .subtract(const Duration(hours: 12)),
+        );
+      }
+      if (deadline.subtract(const Duration(minutes: 30)).isAfter(today)) {
+        await service.showScheduledNotification(
+          id: DateTime.now().millisecond + 1,
+          title: dropdownValue.value,
+          body: '30 minutes before task deadline!',
+          notificationTime: tz.TZDateTime(tz.local, deadline.year,
+                  deadline.month, deadline.day, deadline.hour, deadline.minute)
+              .subtract(const Duration(minutes: 30)),
+        );
+      }
       Get.offAllNamed('/page-tree');
     });
   }
@@ -94,7 +119,7 @@ class TaskController extends GetxController {
         .then((value) => value.docs.map((e) => e.id).toList()[0]);
   }
 
-  Future<void> doneTask(String subjectName, String detail, bool status) async {
+  Future<void> doneTask(String subjectName, String detail, bool isDone) async {
     final String subjectId = await getSubjectId(subjectName);
     final String taskId = await getTaskId(subjectId, detail);
     await authController.db
@@ -106,9 +131,8 @@ class TaskController extends GetxController {
         .doc(subjectId)
         .collection('tasks')
         .doc(taskId)
-        .update({'done': status}).then((_) async {
-      await renderTasks(subjectName);
-    });
+        .update({'done': isDone});
+    await renderTasks(subjectName);
   }
 
   Future<void> removeTask(String subjectName, String detail) async {
@@ -123,9 +147,7 @@ class TaskController extends GetxController {
         .doc(subjectId)
         .collection('tasks')
         .doc(taskId)
-        .delete()
-        .then((_) async {
-      await renderTasks(subjectName);
-    });
+        .delete();
+    await renderTasks(subjectName);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class TaskCard extends StatelessWidget {
   final Map<String, dynamic> task;
@@ -51,7 +52,8 @@ class TaskCard extends StatelessWidget {
                         const Icon(CupertinoIcons.calendar),
                         const SizedBox(width: 6.0),
                         Text(
-                          task['deadline'],
+                          DateFormat('dd-MM-yyyy kk:mm')
+                              .format(DateTime.parse(task['deadline'])),
                           style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,

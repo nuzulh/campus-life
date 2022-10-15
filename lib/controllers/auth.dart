@@ -33,6 +33,7 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    isLoading.value = false;
 
     firebaseUser = Rx<User?>(auth.currentUser);
     googleSignInAccount = Rx<GoogleSignInAccount?>(googleSign.currentUser);

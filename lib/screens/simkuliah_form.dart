@@ -13,9 +13,9 @@ class SimkuliahForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScheduleController scheduleController = Get.put(ScheduleController());
     final TextEditingController npmController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    RxBool isLoading = false.obs;
 
     return Scaffold(
       body: Stack(
@@ -59,16 +59,19 @@ class SimkuliahForm extends StatelessWidget {
                         icon: FontAwesomeIcons.key,
                       ),
                       Obx(
-                        () => scheduleController.isLoading.value
+                        () => isLoading.value
                             ? LoadingAnimationWidget.horizontalRotatingDots(
                                 color: Colors.black87, size: 60.0)
                             : Button(
                                 text: 'Get schedules',
-                                onPressed: () {
-                                  scheduleController.getSimkuliahSchedule(
+                                onPressed: () async {
+                                  isLoading.value = true;
+                                  await ScheduleController.to
+                                      .getSimkuliahSchedule(
                                     npmController.text.trim(),
                                     passwordController.text.trim(),
                                   );
+                                  isLoading.value = false;
                                 },
                               ),
                       ),

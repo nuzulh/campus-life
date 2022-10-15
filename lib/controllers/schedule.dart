@@ -1,26 +1,38 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:campus_life/components/button.dart';
+import 'package:campus_life/services/local_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:campus_life/controllers/auth.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class ScheduleController extends GetxController {
   static ScheduleController get to => ScheduleController();
   final AuthController authController = Get.put(AuthController());
 
   final Rx<DateTime> today = DateTime.now().obs;
+  final LocalNotification service = LocalNotification();
 
   RxList subjects = [].obs;
   RxBool isSubjectEmpty = true.obs;
   RxBool isLoading = false.obs;
 
+  @override
+  onInit() async {
+    await setScheduleNotifications();
+    super.onInit();
+  }
+
   Future<void> renderSubjects(int day) async {
-    subjects.value = await getSubjects(day);
-    isSubjectEmpty.value = await isSubjectsEmpty().then((value) {
+    subjects.value = await getSubjects(day).then((value) async {
+      isSubjectEmpty.value = await isSubjectsEmpty().then((value) {
+        isLoading.value = false;
+        return value;
+      });
       isLoading.value = false;
       return value;
     });
@@ -232,6 +244,7 @@ class ScheduleController extends GetxController {
         duration: const Duration(seconds: 2),
       );
     }
+    isLoading.value = false;
   }
 
   Future<bool> isSubjectsEmpty() async {
@@ -284,5 +297,29 @@ class ScheduleController extends GetxController {
         .collection('subjects')
         .get()
         .then((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+  Future setScheduleNotifications() async {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    for (int i = 0; i < 6; i++) {
+      await getSubjects(i).then((value) async {
+        if (value.isNotEmpty) {
+          for (Map val in value) {
+            int hour = int.parse(val['time'].split(':')[0]);
+            int minute = int.parse(val['time'].split(':')[1]);
+            tz.TZDateTime notificationTime = tz.TZDateTime(
+                    tz.local, now.year, now.month, now.day, hour, minute)
+                .subtract(Duration(days: now.weekday - 1, minutes: 15))
+                .add(Duration(days: DateTime.daysPerWeek + i));
+            await service.showWeeklyNotification(
+                id: i + hour,
+                title: val["name"],
+                body: '15 minutes before class starts',
+                notificationTime:
+                    notificationTime.add(const Duration(days: 2)));
+          }
+        }
+      });
+    }
   }
 }

@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TaskForm extends StatelessWidget {
@@ -85,10 +84,8 @@ class TaskForm extends StatelessWidget {
                                   showTitleActions: true,
                                   minTime: DateTime.now(),
                                   onConfirm: (date) {
-                                    taskController
-                                            .deadlineController.value.text =
-                                        DateFormat('dd-MM-yyyy kk:mm')
-                                            .format(date);
+                                    taskController.deadlineController.value
+                                        .text = date.toString().split('.')[0];
                                   },
                                   currentTime: DateTime.now(),
                                   locale: LocaleType.en,
@@ -105,8 +102,7 @@ class TaskForm extends StatelessWidget {
                                 minTime: DateTime.now(),
                                 onConfirm: (date) {
                                   taskController.deadlineController.value.text =
-                                      DateFormat('dd-MM-yyyy kk:mm')
-                                          .format(date);
+                                      date.toString().split('.')[0];
                                 },
                                 currentTime: DateTime.now(),
                                 locale: LocaleType.en,

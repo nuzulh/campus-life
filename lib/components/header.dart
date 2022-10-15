@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Header extends StatelessWidget {
   final String title;
@@ -21,7 +22,7 @@ class Header extends StatelessWidget {
           CupertinoButton(
             onPressed: () {
               if (showBackButton) {
-                Navigator.pop(context);
+                Get.back();
               }
             },
             child: Icon(
@@ -37,11 +38,7 @@ class Header extends StatelessWidget {
             style: Theme.of(context).textTheme.headline3,
           ),
           CupertinoButton(
-            onPressed: () {
-              if (showBackButton) {
-                Navigator.pop(context);
-              }
-            },
+            onPressed: () {},
             child: const Icon(
               Icons.notifications,
               size: 26.0,
