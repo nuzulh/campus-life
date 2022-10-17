@@ -52,7 +52,7 @@ class AuthController extends GetxController {
       if (user.value.firstName == '') {
         Get.offAllNamed('/complete-profile');
       } else {
-        Get.offAllNamed('/page-tree');
+        Get.offAllNamed('/home');
       }
     }
   }
@@ -65,7 +65,7 @@ class AuthController extends GetxController {
       if (user.value.firstName == '') {
         Get.offAllNamed('/complete-profile');
       } else {
-        Get.offAllNamed('/page-tree');
+        Get.offAllNamed('/home');
       }
     }
   }

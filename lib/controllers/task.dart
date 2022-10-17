@@ -19,6 +19,7 @@ class TaskController extends GetxController {
   RxString dropdownValue = ''.obs;
   RxString subjectId = ''.obs;
   RxList tasks = [].obs;
+  RxList todayTasks = [].obs;
 
   @override
   void onInit() {
@@ -35,7 +36,7 @@ class TaskController extends GetxController {
   }
 
   Future<String> getSubjectId(String subjectName) async {
-    return await authController.db
+    List result = await authController.db
         .collection('users')
         .doc(authController.firebaseUser.value?.uid)
         .collection('schedule')
@@ -43,7 +44,11 @@ class TaskController extends GetxController {
         .collection('subjects')
         .where('name', isEqualTo: subjectName)
         .get()
-        .then((value) => value.docs.map((e) => e.id).toList()[0]);
+        .then((value) => value.docs.map((e) => e.id).toList());
+    if (result.isNotEmpty) {
+      return result[0];
+    }
+    return '';
   }
 
   Future<void> addTask() async {
@@ -87,7 +92,7 @@ class TaskController extends GetxController {
               .subtract(const Duration(minutes: 30)),
         );
       }
-      Get.offAllNamed('/page-tree');
+      Get.offAllNamed('/home');
     });
   }
 

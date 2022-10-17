@@ -41,7 +41,7 @@ class HomeController extends GetxController {
 
   void onNoticationListener(String? payload) {
     if (payload != null && payload.isNotEmpty) {
-      Get.toNamed('/page-tree');
+      Get.toNamed('/home');
     }
   }
 

@@ -15,21 +15,21 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
+      padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           CupertinoButton(
             onPressed: () {
               if (showBackButton) {
-                Get.back();
+                Get.offNamed('/home');
+              } else {
+                Get.offNamed('/account');
               }
             },
             child: Icon(
-              showBackButton
-                  ? Icons.chevron_left
-                  : CupertinoIcons.calendar_today,
-              size: showBackButton ? 38.0 : 26.0,
+              showBackButton ? Icons.close : CupertinoIcons.person_crop_circle,
+              size: 28.0,
               color: Colors.black87,
             ),
           ),
@@ -38,9 +38,11 @@ class Header extends StatelessWidget {
             style: Theme.of(context).textTheme.headline3,
           ),
           CupertinoButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed('/settings');
+            },
             child: const Icon(
-              Icons.notifications,
+              Icons.settings,
               size: 26.0,
               color: Colors.black87,
             ),

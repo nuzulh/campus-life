@@ -20,6 +20,7 @@ class ScheduleController extends GetxController {
   RxList subjects = [].obs;
   RxBool isSubjectEmpty = true.obs;
   RxBool isLoading = false.obs;
+  RxMap allSubjects = {}.obs;
 
   @override
   onInit() async {
@@ -36,6 +37,50 @@ class ScheduleController extends GetxController {
       isLoading.value = false;
       return value;
     });
+  }
+
+  Future<void> resetSchedules() async {
+    return await authController.db
+        .collection('users')
+        .doc(authController.firebaseUser.value?.uid)
+        .delete();
+  }
+
+  Future<void> deleteAccount() async {
+    return await authController.db
+        .collection('users')
+        .doc(authController.firebaseUser.value?.uid)
+        .delete();
+  }
+
+  Future<List> getSubjects(int day) async {
+    isLoading.value = true;
+    return await authController.db
+        .collection('users')
+        .doc(authController.firebaseUser.value?.uid)
+        .collection('schedule')
+        .doc(day.toString())
+        .collection('subjects')
+        .get()
+        .then((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+  Future<Map> getAllSubjects() async {
+    isLoading.value = true;
+    Map results = {};
+    for (int i = 0; i < 7; i++) {
+      results[i] = await authController.db
+          .collection('users')
+          .doc(authController.firebaseUser.value?.uid)
+          .collection('schedule')
+          .doc(i.toString())
+          .collection('subjects')
+          .get()
+          .then((value) => value.docs.map((e) => e.data()).toList());
+    }
+    allSubjects.value = results;
+    isLoading.value = false;
+    return results;
   }
 
   Future<void> getSimkuliahSchedule(String npm, String password) async {
@@ -213,7 +258,7 @@ class ScheduleController extends GetxController {
                         onPressed: () async {
                           await saveSimkuliahSchedule(result['result'])
                               .then((_) {
-                            Get.offAllNamed('/page-tree');
+                            Get.offAllNamed('/home');
                           });
                         },
                       ),
@@ -285,18 +330,6 @@ class ScheduleController extends GetxController {
       );
     }
     isLoading.value = false;
-  }
-
-  Future<List> getSubjects(int day) async {
-    isLoading.value = true;
-    return await authController.db
-        .collection('users')
-        .doc(authController.firebaseUser.value?.uid)
-        .collection('schedule')
-        .doc(day.toString())
-        .collection('subjects')
-        .get()
-        .then((value) => value.docs.map((e) => e.data()).toList());
   }
 
   Future setScheduleNotifications() async {

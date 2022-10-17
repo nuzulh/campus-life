@@ -14,96 +14,100 @@ class Account extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthController authController = Get.put(AuthController());
 
-    return Stack(
-      children: [
-        const SecondaryBg(),
-        SafeArea(
-          child: SizedBox(
-            height: double.maxFinite,
-            child: Column(
-              children: [
-                const Header(title: 'Account', showBackButton: false),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CircleAvatar(
-                        foregroundImage:
-                            AssetImage('assets/images/profile.png'),
-                        backgroundColor: Colors.white54,
-                        radius: 76.0,
-                      ),
-                      CupertinoButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      body: Stack(
+        children: [
+          const SecondaryBg(),
+          SafeArea(
+            child: SizedBox(
+              height: double.maxFinite,
+              child: Column(
+                children: [
+                  const Header(title: 'Account', showBackButton: true),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircleAvatar(
+                          foregroundImage:
+                              AssetImage('assets/images/profile.png'),
+                          backgroundColor: Colors.white54,
+                          radius: 76.0,
+                        ),
+                        CupertinoButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Edit profile',
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                              const SizedBox(width: 6.0),
+                              const Icon(
+                                FontAwesomeIcons.penToSquare,
+                                color: Colors.black54,
+                                size: 18.0,
+                              ),
+                            ],
+                          ),
+                          onPressed: () {
+                            Get.toNamed('/edit-profile');
+                          },
+                        ),
+                        const SizedBox(height: 24.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            const Text(
+                              'Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Text(
-                              'Edit profile',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                            const SizedBox(width: 6.0),
-                            const Icon(
-                              FontAwesomeIcons.penToSquare,
-                              color: Colors.black54,
-                              size: 18.0,
-                            ),
+                                '${authController.user.value.firstName} ${authController.user.value.lastName}'),
                           ],
                         ),
-                        onPressed: () {},
-                      ),
-                      const SizedBox(height: 24.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Name',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                              '${authController.user.value.firstName} ${authController.user.value.lastName}'),
-                        ],
-                      ),
-                      const Divider(color: Colors.black26),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Email',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(authController.user.value.email),
-                        ],
-                      ),
-                      const Divider(color: Colors.black26),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'University',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(authController.user.value.university),
-                        ],
-                      ),
-                      const Divider(color: Colors.black26),
-                      const SizedBox(height: 24.0),
-                      Button(
-                        text: 'Sign out',
-                        paddingX: 0.0,
-                        icon: Icons.logout_outlined,
-                        color: const Color(0xFF3F8798),
-                        onPressed: authController.signOut,
-                      )
-                    ],
+                        const Divider(color: Colors.black26),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Email',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(authController.user.value.email),
+                          ],
+                        ),
+                        const Divider(color: Colors.black26),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'University',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(authController.user.value.university),
+                          ],
+                        ),
+                        const Divider(color: Colors.black26),
+                        const SizedBox(height: 24.0),
+                        Button(
+                          text: 'Sign out',
+                          paddingX: 0.0,
+                          icon: Icons.logout_outlined,
+                          color: const Color(0xFF3F8798),
+                          onPressed: authController.signOut,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

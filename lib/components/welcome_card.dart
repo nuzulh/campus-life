@@ -38,8 +38,8 @@ class WelcomeCard extends StatelessWidget {
               GetX<AuthController>(
                 init: AuthController(),
                 builder: (controller) => FutureBuilder(
-                    future:
-                        controller.getUser(controller.firebaseUser.value!.uid),
+                    future: controller
+                        .getUser(controller.firebaseUser.value?.uid ?? ''),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Text(
