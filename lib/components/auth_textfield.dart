@@ -8,6 +8,7 @@ class AuthTextField extends StatelessWidget {
   final bool isPassword;
   final int maxLines;
   final Function()? onTap;
+  final Function(String value)? onChanged;
   final bool readOnly;
 
   const AuthTextField({
@@ -19,6 +20,7 @@ class AuthTextField extends StatelessWidget {
     this.isPassword = false,
     this.maxLines = 1,
     this.onTap,
+    this.onChanged,
     this.readOnly = false,
   }) : super(key: key);
 
@@ -32,6 +34,7 @@ class AuthTextField extends StatelessWidget {
         maxLines: maxLines,
         onTap: onTap,
         readOnly: readOnly,
+        onChanged: onChanged,
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 14.0, horizontal: 8.0),

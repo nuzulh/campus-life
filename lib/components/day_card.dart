@@ -41,7 +41,7 @@ class DayCard extends StatelessWidget {
               ),
             ),
             Text(
-              int.parse(date) < 1 ? '-' : date,
+              date,
               style: GoogleFonts.poppins(
                 color:
                     isSelected ? Colors.white : Colors.black.withOpacity(0.7),

@@ -39,18 +39,8 @@ class ScheduleController extends GetxController {
     });
   }
 
-  Future<void> resetSchedules() async {
-    return await authController.db
-        .collection('users')
-        .doc(authController.firebaseUser.value?.uid)
-        .delete();
-  }
-
   Future<void> deleteAccount() async {
-    return await authController.db
-        .collection('users')
-        .doc(authController.firebaseUser.value?.uid)
-        .delete();
+    await authController.auth.currentUser?.delete();
   }
 
   Future<List> getSubjects(int day) async {
@@ -323,6 +313,10 @@ class ScheduleController extends GetxController {
               {
                 'name': subject['mk'],
                 'time': subject['jam'],
+                'lecturer': subject['dosen'],
+                'lecturer_id': subject['nip'],
+                'phone_no': subject['hp'],
+                'room': subject['ruang'],
               },
             );
           }

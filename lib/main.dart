@@ -3,7 +3,6 @@ import 'package:campus_life/controllers/auth.dart';
 import 'package:campus_life/pages/account.dart';
 import 'package:campus_life/pages/home.dart';
 import 'package:campus_life/screens/edit_profile.dart';
-import 'package:campus_life/screens/settings.dart';
 import 'package:campus_life/screens/welcome.dart';
 import 'package:campus_life/screens/complete_profile.dart';
 import 'package:campus_life/screens/login.dart';
@@ -131,10 +130,6 @@ class CampusLife extends StatelessWidget {
         GetPage(
           name: '/edit-profile',
           page: () => const EditProfile(),
-        ),
-        GetPage(
-          name: '/settings',
-          page: () => const Settings(),
         ),
         GetPage(
           name: '/task-form',

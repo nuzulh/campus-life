@@ -53,18 +53,20 @@ class Home extends StatelessWidget {
                           physics: const BouncingScrollPhysics(),
                           child: Obx(
                             () => Row(
-                              children: homeController.days
+                              children: [0, 1, 2, 3, 4, 5, 6]
                                   .map(
-                                    (day) => DayCard(
-                                      day: day,
+                                    (index) => DayCard(
+                                      day: homeController.days[index],
                                       date:
-                                          '${homeController.firstDay.value + homeController.days.indexOf(day)}',
+                                          '${homeController.weekDates[index].day}',
                                       isSelected:
                                           homeController.selectedDay.value ==
-                                              homeController.days.indexOf(day),
+                                              homeController.days.indexOf(
+                                                  homeController.days[index]),
                                       onTap: () {
                                         homeController.selectedDay(
-                                            homeController.days.indexOf(day));
+                                            homeController.days.indexOf(
+                                                homeController.days[index]));
                                       },
                                     ),
                                   )
@@ -84,7 +86,7 @@ class Home extends StatelessWidget {
                                     const Padding(
                                       padding: EdgeInsets.all(18.0),
                                       child: Text(
-                                          'Your schedule is still empty! Choose how you add schedules:'),
+                                          'Your schedule is still empty! Please add your schedule:'),
                                     ),
                                     Button(
                                       text: 'SIMKULIAH USK',
@@ -94,12 +96,6 @@ class Home extends StatelessWidget {
                                       img: 'assets/images/usk.png',
                                       color: const Color.fromARGB(
                                           255, 22, 156, 129),
-                                    ),
-                                    Button(
-                                      text: 'Add manually',
-                                      onPressed: () {},
-                                      icon: Icons.add_circle_outline,
-                                      color: const Color(0xFF3F8798),
                                     ),
                                   ],
                                 );
@@ -116,9 +112,8 @@ class Home extends StatelessWidget {
                                           (subject) => ScheduleCard(
                                               onTap: () {
                                                 Get.to(
-                                                  () => Subject(
-                                                      subjectName:
-                                                          subject['name']),
+                                                  () =>
+                                                      Subject(subject: subject),
                                                 );
                                               },
                                               subject: subject['name'],

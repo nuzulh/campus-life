@@ -19,6 +19,11 @@ class Header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          const SizedBox(width: 50),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headline3,
+          ),
           CupertinoButton(
             onPressed: () {
               if (showBackButton) {
@@ -30,20 +35,6 @@ class Header extends StatelessWidget {
             child: Icon(
               showBackButton ? Icons.close : CupertinoIcons.person_crop_circle,
               size: 28.0,
-              color: Colors.black87,
-            ),
-          ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline3,
-          ),
-          CupertinoButton(
-            onPressed: () {
-              Get.toNamed('/settings');
-            },
-            child: const Icon(
-              Icons.settings,
-              size: 26.0,
               color: Colors.black87,
             ),
           ),
